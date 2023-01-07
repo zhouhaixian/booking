@@ -1,0 +1,19 @@
+{
+  "name": "@booking/types",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
+    "postinstall": "pnpm run build"
+  },
+  "author": "Zhou Haixian <2223540637@qq.com>",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "typescript": "^4.9.4"
+  },
+  "exports": {
+    "require": "./lib/cjs/index.js",
+    "import": "./lib/esm/index.js"
+  },
+  "types": "./lib/esm/index.d.ts"
+}
