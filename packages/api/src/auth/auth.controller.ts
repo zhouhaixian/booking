@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from './local-auth.guard';
 import { LoginDto } from './dto/login.dto';
 import { AuthService } from './auth.service';
@@ -18,6 +18,7 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Roles(Role.Admin)
   @Get('admin')

@@ -12,6 +12,7 @@ import { RolesGuard } from './auth/roles.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { DATABASE_URL } from '@booking/configs';
 import { ConfigsModule } from './configs/configs.module';
+import { RecordsModule } from './records/records.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ConfigsModule } from './configs/configs.module';
     AuthModule,
     JwtModule,
     ConfigsModule,
+    RecordsModule,
   ],
   controllers: [AppController],
   providers: [

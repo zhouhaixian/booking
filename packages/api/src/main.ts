@@ -11,9 +11,10 @@ async function bootstrap() {
   if (process.env['NODE_ENV'] === 'development') {
     const { DocumentBuilder, SwaggerModule } = await import('@nestjs/swagger');
     const config = new DocumentBuilder()
-      .setTitle('Recording Studio API')
-      .setDescription('API of recording studio reservation managemant system')
+      .setTitle('Booking API')
+      .setDescription('API of booking system')
       .setVersion(version)
+      .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup(SWAGGER_PATH, app, document);

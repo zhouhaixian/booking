@@ -1,4 +1,9 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Role } from '@booking/types';
 import { ROLES_KEY } from './roles.decorator';
@@ -21,20 +26,28 @@ export class RolesGuard implements CanActivate {
     if (!requiredRoles) {
       return true;
     }
-    const auth = context.switchToRpc().getData().headers.authorization;
+    const {
+      headers: { authorization: auth },
+      body,
+      params,
+    } = context.switchToRpc().getData();
     if (auth !== undefined) {
       try {
-        const token = auth.replace('bearer ', '');
+        const token = auth.replace('bearer ', '').replace('Bearer ', '');
         const { id } = this.jwtService.decode(token) as { id: string };
         const user = await this.usersService.findOneById(id);
-        return requiredRoles.some((role) => user.role?.includes(role));
+        return requiredRoles.some((role) => {
+          if (role === Role.User) {
+            return body.id === user.id || params.id === user.id;
+          } else {
+            return user.role === role;
+          }
+        });
       } catch {
-        return false;
+        throw new UnauthorizedException();
       }
-    } else if (process.env['NODE_ENV'] === 'development') {
-      return true;
     } else {
-      return false;
+      throw new UnauthorizedException();
     }
   }
 }

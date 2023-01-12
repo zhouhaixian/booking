@@ -15,7 +15,7 @@
     "require": "./lib/cjs/index.js",
     "import": "./lib/esm/index.js"
   },
-  "types": "./lib/esm/index.d.ts",
+  "types": "./src/index.ts",
   "dependencies": {
     "@booking/types": "workspace:^1.0.0"
   }
