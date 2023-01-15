@@ -12,7 +12,7 @@ import { LoginPayload, RegisterPayload } from './types';
 // 更多信息见文档：https://next.umijs.org/docs/api/runtime-config#getinitialstate
 export async function getInitialState() {
   let token = localStorage.getItem('token');
-  let user = null;
+  let user: UserInfo | null = null;
   let hasAdmin = false;
 
   function setUser(newUser: UserInfo | null) {
@@ -42,6 +42,18 @@ export async function getInitialState() {
     setToken(token);
   }
 
+  async function update(id: string, payload: Partial<UserInfo>) {
+    const { data } = await max.request('/users/'.concat(id), {
+      method: 'PATCH',
+      data: payload,
+    });
+    setUser(data);
+  }
+
+  function deleteAccount(id: string) {
+    return max.request('/users/'.concat(id), { method: 'DELETE' });
+  }
+
   function logout() {
     setUser(null);
     setToken(null);
@@ -62,7 +74,16 @@ export async function getInitialState() {
     hasAdmin = data;
   } catch {}
 
-  return { token, user, hasAdmin, register, login, logout };
+  return {
+    token,
+    user,
+    hasAdmin,
+    register,
+    login,
+    logout,
+    update,
+    deleteAccount,
+  };
 }
 
 export const layout: RunTimeLayoutConfig = () => {
@@ -94,7 +115,7 @@ export const request: RequestConfig = {
   timeout: 30000,
   errorConfig: {
     errorHandler: (error: any) => {
-      message.warn(error.message);
+      message.info(error.message);
     },
   },
   requestInterceptors: [

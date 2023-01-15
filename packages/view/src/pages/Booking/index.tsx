@@ -3,6 +3,7 @@ import { useModel } from '@umijs/max';
 import { message } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/zh-cn';
+import { useState } from 'react';
 import Schedule from './components/Schedule';
 import './index.less';
 import { ScheduleSource } from './types';
@@ -14,9 +15,13 @@ export default function BookingPage() {
     'configs',
     (model) => model.config?.book_limit_message,
   );
-  const schedule = Array.from(new Array(8), () =>
-    new Array(7).fill(null),
-  ) as ScheduleSource;
+  const bookingSuccessfulMessage = useModel(
+    'configs',
+    (model) => model.config?.booking_successful_message,
+  );
+  const [schedule, setSchedule] = useState(
+    Array.from(new Array(8), () => new Array(7).fill(null)) as ScheduleSource,
+  );
 
   const { schedule: record, createRecord } = useModel('records');
   record.forEach((record) => {
@@ -43,7 +48,16 @@ export default function BookingPage() {
 
     try {
       const result = await createRecord(payload);
-      setTimeout(() => window.location.reload(), 200);
+      if (result.code === 200) {
+        setSchedule((schedule) => {
+          const newSchedule = JSON.parse(JSON.stringify(schedule));
+          newSchedule[payload.index][
+            day.startOf('date').diff(dayjs().startOf('date'), 'day')
+          ] = payload;
+          return newSchedule;
+        });
+        message.success(bookingSuccessfulMessage);
+      }
       return result.code === 200;
     } catch (error: any) {
       if (

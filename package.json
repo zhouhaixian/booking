@@ -1,16 +1,18 @@
 {
   "name": "booking",
   "version": "1.0.0",
-  "description": "录播室预约管理系统",
   "private": true,
-  "scripts": {
-    "preinstall": "npx only-allow pnpm",
-    "start": "turbo run dev",
-    "generate:view": "pnpm --filter @booking/view generate",
-    "generate:api": "pnpm --filter @booking/api generate"
-  },
-  "author": "Zhou Haixian <2223540637@qq.com>",
+  "description": "录播室预约管理系统",
   "license": "GPL-3.0",
+  "author": "Zhou Haixian <2223540637@qq.com>",
+  "scripts": {
+    "build:api": "pnpm --filter @booking/api build",
+    "build:view": "pnpm --filter @booking/view build",
+    "generate:api": "pnpm --filter @booking/api generate",
+    "generate:view": "pnpm --filter @booking/view generate",
+    "preinstall": "npx only-allow pnpm",
+    "start": "turbo run dev"
+  },
   "dependencies": {
     "@booking/api": "workspace:*",
     "@booking/view": "workspace:*"

@@ -51,12 +51,19 @@ export default defineConfig({
       icon: 'ReconciliationOutlined',
     },
     {
+      name: '账号信息',
+      path: '/account',
+      wrappers: ['@/wrappers/auth', '@/wrappers/init', '@/wrappers/locale'],
+      component: './Account',
+      icon: 'UserOutlined',
+    },
+    {
       name: '用户列表',
       path: '/users',
       wrappers: ['@/wrappers/auth', '@/wrappers/init', '@/wrappers/locale'],
       component: './Users',
       access: 'isAdmin',
-      icon: 'UserOutlined',
+      icon: 'UsergroupAddOutlined',
     },
     {
       name: '配置中心',
