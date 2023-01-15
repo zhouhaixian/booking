@@ -102,6 +102,7 @@ export default function RecordPane() {
         ...record,
         start_time: dayjs(record.start_time).format('YYYY-MM-DD HH:mm:ss'),
         end_time: dayjs(record.end_time).format('YYYY-MM-DD HH:mm:ss'),
+        create_at: dayjs(record.create_at).format('YYYY-MM-DD HH:mm:ss'),
       })),
     };
   }
