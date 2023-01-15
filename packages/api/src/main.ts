@@ -7,6 +7,7 @@ import { API_DOMAIN, API_PORT, SWAGGER_PATH } from '@booking/configs';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { logger: ['log'] });
   const logger = new Logger('Main');
+  const port = process.env.PORT || API_PORT;
 
   if (process.env['NODE_ENV'] === 'development') {
     const { DocumentBuilder, SwaggerModule } = await import('@nestjs/swagger');
@@ -22,7 +23,7 @@ async function bootstrap() {
   }
 
   app.enableCors();
-  await app.listen(API_PORT);
-  logger.log(`Listening: http://localhost:${API_PORT}`);
+  await app.listen(port);
+  logger.log(`Listening: http://localhost:${port}`);
 }
 bootstrap();
