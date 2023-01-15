@@ -1,9 +1,10 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { ScheduleSource } from '../types';
 import Cell from './Cell';
 
 interface ScheduleProps {
   data: ScheduleSource;
+  onFinish: (formData: any, day: Dayjs) => Promise<boolean>;
 }
 
 export default function Schedule(props: ScheduleProps) {
@@ -55,6 +56,9 @@ export default function Schedule(props: ScheduleProps) {
               booked={record !== null}
               data={record}
               overdue={dayjs().isAfter(start_times[index][index_])}
+              index={index}
+              day={days[index_]}
+              onFinish={props.onFinish}
             />
           </div>
         </div>

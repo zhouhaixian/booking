@@ -3,12 +3,18 @@ import { request } from '@umijs/max';
 import { Record } from '@booking/types';
 
 export default () => {
-  const path = '/records/schedule';
-  const { data } = useRequest(path) as { data: Record[] | undefined };
+  const path = '/records';
+  const { data: schedule } = useRequest(path.concat('/schedule')) as {
+    data: Record[] | undefined;
+  };
 
   function createRecord(record: Record) {
     return request(path, { method: 'POST', data: record });
   }
 
-  return { record: data ?? [], createRecord };
+  function deleteRecord(record: Record) {
+    return request(path, { method: 'DELETE', data: record });
+  }
+
+  return { schedule: schedule ?? [], createRecord, deleteRecord };
 };

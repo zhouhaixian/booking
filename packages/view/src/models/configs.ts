@@ -3,6 +3,7 @@ import { request, useRequest } from '@umijs/max';
 type Config = {
   booking_successful_message: string;
   forgot_password_message: string;
+  book_limit_message: string;
 };
 
 export default () => {

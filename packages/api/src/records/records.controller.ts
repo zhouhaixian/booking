@@ -3,29 +3,38 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   BadRequestException,
+  UseGuards,
+  Request,
+  Query,
 } from '@nestjs/common';
 import { RecordsService } from './records.service';
 import { CreateRecordDto } from './dto/create-record.dto';
-import { UpdateRecordDto } from './dto/update-record.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import * as dayjs from 'dayjs';
 import * as isBetween from 'dayjs/plugin/isBetween';
 import 'dayjs/locale/zh-cn';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Role } from '@booking/types';
+import { UsersService } from 'src/users/users.service';
+import { Roles } from 'src/auth/roles.decorator';
 
 dayjs.extend(isBetween);
 dayjs.locale('zh-cn');
 
 @ApiTags('records')
+@UseGuards(JwtAuthGuard)
 @Controller('records')
 export class RecordsController {
-  constructor(private readonly recordsService: RecordsService) {}
+  constructor(
+    private readonly recordsService: RecordsService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Post()
-  create(@Body() createRecordDto: CreateRecordDto) {
+  async create(@Body() createRecordDto: CreateRecordDto, @Request() req) {
     const {
       name,
       class: class_,
@@ -45,6 +54,22 @@ export class RecordsController {
       throw new BadRequestException('start_time is out of range');
     }
 
+    const user = await this.usersService.findOneById(req.user.id);
+    if (user.role !== Role.Admin) {
+      const today = dayjs();
+      const nextWeek = today.add(7, 'day');
+      const result = await this.recordsService.findAll({
+        id: req.user.id,
+        start_time: {
+          $gte: today.startOf('date').toDate(),
+          $lt: nextWeek.startOf('date').toDate(),
+        },
+      });
+      if (result.length >= 2) {
+        throw new BadRequestException('You can only book two lessons a week');
+      }
+    }
+
     return this.recordsService.create({
       name,
       class: class_,
@@ -53,6 +78,7 @@ export class RecordsController {
       index,
       start_time: dayjs(start_time).toDate(),
       end_time: dayjs(end_time).toDate(),
+      id: user.id,
     });
   }
 
@@ -60,7 +86,7 @@ export class RecordsController {
   findSevenDays() {
     const today = dayjs();
     const nextWeek = today.add(7, 'day');
-    return this.recordsService.find({
+    return this.recordsService.findAll({
       start_time: {
         $gte: today.startOf('date').toDate(),
         $lt: nextWeek.startOf('date').toDate(),
@@ -68,23 +94,31 @@ export class RecordsController {
     });
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.recordsService.findAll();
-  // }
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.User)
+  @Delete()
+  async remove(@Body() body, @Request() req) {
+    const user = await this.usersService.findOneById(req.user.id);
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.recordsService.findOne(+id);
-  // }
+    if (user.role !== Role.Admin && dayjs().isAfter(dayjs(body.start_time))) {
+      throw new BadRequestException(
+        'You can only cancel a lesson before it starts',
+      );
+    }
+    return this.recordsService.remove(body);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateRecordDto: UpdateRecordDto) {
-  //   return this.recordsService.update(+id, updateRecordDto);
-  // }
+  @ApiBearerAuth()
+  @Roles(Role.Admin, Role.User)
+  @Get(':id')
+  findById(@Param('id') id: string) {
+    return this.recordsService.findAll({ id });
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.recordsService.remove(+id);
-  // }
+  @ApiBearerAuth()
+  @Roles(Role.Admin)
+  @Get()
+  findAll(@Query() query: any) {
+    return this.recordsService.findAll(query);
+  }
 }

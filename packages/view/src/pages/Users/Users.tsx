@@ -210,9 +210,7 @@ export default function Users() {
     const worksheet = XLSX.utils.json_to_sheet(table, { origin: 'A2' } as any);
     const workbook = XLSX.utils.book_new();
 
-    worksheet['!merges'] = [
-      XLSX.utils.decode_range('A1:G1')
-    ]
+    worksheet['!merges'] = [XLSX.utils.decode_range('A1:G1')];
     worksheet['A1'] = {
       t: 's',
       v: outputName,
@@ -223,9 +221,9 @@ export default function Users() {
       s: {
         font: {
           sz: 16,
-          underline: true
+          underline: true,
         },
-        border: undefined
+        border: undefined,
       },
     };
     worksheet['!cols'] = [
@@ -248,17 +246,17 @@ export default function Users() {
           s: {
             alignment: {
               horizontal: 'center',
-              vertical: 'center'
+              vertical: 'center',
             },
             border: {
-              top: { style: 'thin', color: { rgb: '#5c6c75'}},
-              bottom: { style: 'thin', color: { rgb: '#5c6c75'}},
-              left: { style: 'thin', color: { rgb: '#5c6c75'}},
-              right: { style: 'thin', color: { rgb: '#5c6c75'}}
+              top: { style: 'thin', color: { rgb: '#5c6c75' } },
+              bottom: { style: 'thin', color: { rgb: '#5c6c75' } },
+              left: { style: 'thin', color: { rgb: '#5c6c75' } },
+              right: { style: 'thin', color: { rgb: '#5c6c75' } },
             },
-            ...worksheet[key].s
-          }
-        }
+            ...worksheet[key].s,
+          },
+        };
       }
     }
     XLSX.utils.book_append_sheet(workbook, worksheet, outputName);

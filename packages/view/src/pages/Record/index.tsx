@@ -1,10 +1,14 @@
+import { Access, useAccess } from '@umijs/max';
 import React from 'react';
-import styles from './index.less';
+import AdminRecordPane from './components/AdminRecordPane';
+import RecordPane from './components/RecordPane';
+import './index.less';
 
 export default function Page() {
+  const { isAdmin } = useAccess();
   return (
-    <div>
-      <h1 className={styles.title}>Page index</h1>
-    </div>
+    <Access accessible={isAdmin} fallback={<RecordPane />}>
+      <AdminRecordPane />
+    </Access>
   );
 }

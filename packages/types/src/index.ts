@@ -45,6 +45,8 @@ export interface Record {
   class: string;
   subject: Subject;
   index: number;
+  id: string;
   start_time: Date;
   end_time: Date;
+  create_at: Date;
 }

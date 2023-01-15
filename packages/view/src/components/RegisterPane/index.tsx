@@ -19,8 +19,8 @@ export default function RegisterPane() {
           },
           {
             pattern: /^[\s\S]{2,16}$/,
-            message: '姓名长度必须在2到16个字符之间'
-          }
+            message: '姓名长度必须在2到16个字符之间',
+          },
         ]}
       />
       <ProFormText
@@ -55,8 +55,8 @@ export default function RegisterPane() {
           },
           {
             pattern: /^[\s\S]{8,25}$/,
-            message: '密码长度必须在8到25个字符之间'
-          }
+            message: '密码长度必须在8到25个字符之间',
+          },
         ]}
       />
       <ProFormText.Password

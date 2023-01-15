@@ -11,4 +11,9 @@ export class CreateConfigDto {
   @Length(2, 256)
   @ApiProperty()
   forgot_password_message: string;
+
+  @IsString()
+  @Length(2, 256)
+  @ApiProperty()
+  book_limit_message: string;
 }

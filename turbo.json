@@ -2,7 +2,6 @@
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "dev": {
-      "dependsOn": ["@booking/types#build", "@booking/configs#build"],
       "cache": false
     },
     "@booking/types#build": {

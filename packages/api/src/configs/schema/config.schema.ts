@@ -8,6 +8,9 @@ export class Config {
 
   @Prop({ required: true })
   forgot_password_message: string;
+
+  @Prop({ required: true })
+  book_limit_message: string;
 }
 
 export type ConfigDocument = HydratedDocument<Config>;

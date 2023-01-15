@@ -2,7 +2,7 @@ import { Subject } from '@booking/types';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-@Schema()
+@Schema({ timestamps: { createdAt: 'create_at' } })
 export class Record {
   @Prop({ required: true })
   name: string;
@@ -11,7 +11,7 @@ export class Record {
   grade: string;
 
   @Prop({ required: true })
-  class: string;
+  class: number;
 
   @Prop({ required: true })
   subject: Subject;
@@ -24,6 +24,9 @@ export class Record {
 
   @Prop({ required: true })
   end_time: Date;
+
+  @Prop({ required: true })
+  id: string;
 }
 
 export type RecordDocument = HydratedDocument<Record>;

@@ -18,8 +18,8 @@ export class CreateRecordDto extends PickType(CreateUserDto, ['name']) {
   grade: string;
 
   @ApiProperty()
-  @IsString()
-  @Length(1, 16)
+  @IsInt()
+  @Min(1)
   class: string;
 
   @ApiProperty()
@@ -43,4 +43,6 @@ export class CreateRecordDto extends PickType(CreateUserDto, ['name']) {
   @IsDateString()
   @Length(24)
   end_time: Date;
+
+  id: string;
 }

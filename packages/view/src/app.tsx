@@ -45,7 +45,7 @@ export async function getInitialState() {
   function logout() {
     setUser(null);
     setToken(null);
-    history.push('/')
+    history.push('/');
   }
 
   if (token !== null) {
@@ -94,7 +94,7 @@ export const request: RequestConfig = {
   timeout: 30000,
   errorConfig: {
     errorHandler: (error: any) => {
-      message.error(error.message);
+      message.warn(error.message);
     },
   },
   requestInterceptors: [

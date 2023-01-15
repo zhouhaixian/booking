@@ -35,6 +35,22 @@ export default function ConfigPane() {
         ]}
         allowClear={false}
       />
+      <ProFormText
+        name={'book_limit_message'}
+        label={'预约频率受到限制提示信息'}
+        tooltip={'用户预约频率受到限制导致预约失败后弹窗提示的信息'}
+        rules={[
+          {
+            required: true,
+            message: '此项为必填项',
+          },
+          {
+            pattern: /^[\s\S]{2,256}$/,
+            message: '信息长度必须在2到256个字符之间',
+          },
+        ]}
+        allowClear={false}
+      />
     </>
   );
 }

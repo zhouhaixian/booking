@@ -1,14 +1,32 @@
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Record } from '@booking/types';
-import { Button, Typography } from 'antd';
-import dayjs from 'dayjs';
+import { useAccess, useModel } from '@umijs/max';
+import { Button, Popconfirm, Typography } from 'antd';
+import dayjs, { Dayjs } from 'dayjs';
+import BookForm from './BookForm';
 
 interface CellProps {
   booked: boolean;
   data: Record;
   overdue?: boolean;
+  index: number;
+  day: Dayjs;
+  onFinish: (formData: any, day: Dayjs) => Promise<boolean>;
 }
 
 export default function Cell(props: CellProps) {
+  const { user } = useModel(
+    '@@initialState',
+    (model) => model.initialState,
+  ) as any;
+  const { isAdmin } = useAccess();
+  const canCancel = isAdmin || user.id === props.data?.id;
+  const deleteRecord = useModel('records', (model) => model.deleteRecord);
+  function cancel() {
+    deleteRecord(props.data);
+    setTimeout(() => window.location.reload(), 200);
+  }
+
   return (
     <>
       {props.booked ? (
@@ -37,6 +55,22 @@ export default function Cell(props: CellProps) {
               {dayjs(props.data.end_time).format('HH:mm')}
             </Typography.Text>
           </div>
+          {canCancel && !props.overdue && (
+            <Popconfirm
+              title="确定要取消预约吗?"
+              icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+              onConfirm={cancel}
+            >
+              <Button
+                size="small"
+                type="primary"
+                style={{ position: 'absolute', right: '5px', bottom: '0.5px' }}
+                danger
+              >
+                取消
+              </Button>
+            </Popconfirm>
+          )}
         </>
       ) : (
         <div
@@ -47,13 +81,12 @@ export default function Cell(props: CellProps) {
             height: '95%',
           }}
         >
-          <Button
-            type="primary"
-            style={{ position: 'relative', left: -6 }}
-            disabled={props.overdue}
-          >
-            {props.overdue ? '已过期' : '预约'}
-          </Button>
+          <BookForm
+            index={props.index}
+            overdue={props.overdue}
+            onFinish={props.onFinish}
+            day={props.day}
+          />
         </div>
       )}
     </>
