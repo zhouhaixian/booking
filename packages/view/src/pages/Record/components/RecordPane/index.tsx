@@ -1,4 +1,4 @@
-import { useModel } from '@/.umi/plugin-model';
+import { useModel } from '@umijs/max';
 import { request } from '@umijs/max';
 import { ExportOutlined, PrinterOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
