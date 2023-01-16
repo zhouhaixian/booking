@@ -10,9 +10,6 @@ config/config.local.ts
 .umi
 .umi-production
 .umi-test
-.umi
-.umi-production
-.umi-test
 .mfsu
 
 
