@@ -1,0 +1,12 @@
+{
+  API: {
+    // Users => User
+    User: ['/ => /all'];
+
+    // Configs => Config
+    Config: [
+      'book_limit_message => book_limited_message',
+      'book_successful_message => book_success_message',
+    ];
+  }
+}

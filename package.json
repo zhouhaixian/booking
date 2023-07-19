@@ -2,22 +2,34 @@
   "name": "booking",
   "version": "1.0.0",
   "private": true,
-  "description": "录播室预约管理系统",
-  "license": "GPL-3.0",
   "author": "Zhou Haixian <2223540637@qq.com>",
+  "license": "GPL-3.0",
+  "description": "录播室预约管理系统",
   "scripts": {
-    "build:api": "pnpm --filter @booking/api build",
-    "build:view": "pnpm --filter @booking/view build",
-    "generate:api": "pnpm --filter @booking/api generate",
-    "generate:view": "pnpm --filter @booking/view generate",
-    "preinstall": "npx only-allow pnpm",
-    "start": "turbo run dev"
+    "dev": "max dev",
+    "build": "max build",
+    "format": "prettier --cache --write .",
+    "postinstall": "max setup",
+    "start": "pnpm run dev",
+    "generate": "max generate"
   },
   "dependencies": {
-    "@booking/api": "workspace:*",
-    "@booking/view": "workspace:*"
+    "@ant-design/icons": "^4.8.0",
+    "@ant-design/pro-components": "^2.0.1",
+    "@umijs/max": "^4.0.34",
+    "antd": "^4.20.7",
+    "dayjs": "^1.11.7",
+    "lodash": "^4.17.21",
+    "xlsx-js-style": "^1.2.0"
   },
   "devDependencies": {
-    "turbo": "^1.6.3"
+    "@types/lodash": "^4.14.191",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^2",
+    "prettier-plugin-packagejson": "^2",
+    "typescript": "^4.1.2"
   }
 }
