@@ -5,15 +5,15 @@ export type LoginPayload = {
 
 export type RegisterPayload = {
   name: string;
-  id: string;
+  phone: string;
   password: string;
-  sex: Sex;
+  sex: Gender;
   subjects: string;
 };
 
-export enum Sex {
-  男 = 'MALE',
-  女 = 'FEMALE',
+export enum Gender {
+  MALE = '男',
+  FEMALE = '女',
 }
 
 export enum Role {
@@ -24,7 +24,7 @@ export enum Role {
 export type UserInfo = {
   id: string;
   name: string;
-  sex: Sex;
+  sex: Gender;
   subjects: string;
   role: Role;
 };

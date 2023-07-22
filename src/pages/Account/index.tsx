@@ -7,7 +7,7 @@ import {
   ProForm,
   ModalForm,
 } from '@ant-design/pro-components';
-import { Sex } from '../../types';
+import { Gender } from '../../types';
 import React from 'react';
 import { Button, Divider, message, Space, Typography } from 'antd';
 
@@ -75,7 +75,7 @@ export default function AccountPage() {
           />
           <ProFormSelect
             name={'sex'}
-            valueEnum={Sex}
+            valueEnum={Gender}
             placeholder="性别"
             rules={[{ required: true, message: '请选择您的性别!' }]}
             allowClear={false}

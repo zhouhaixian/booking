@@ -1,4 +1,4 @@
-import { Sex } from '../../types';
+import { Gender } from '../../types';
 import {
   MobileOutlined,
   LockOutlined,
@@ -29,7 +29,7 @@ export default function RegisterPane() {
         ]}
       />
       <ProFormText
-        name={'id'}
+        name={'phone'}
         placeholder={'手机号'}
         fieldProps={{
           size: 'large',
@@ -78,15 +78,9 @@ export default function RegisterPane() {
           },
         ]}
       />
-      <ProFormSelect
-        name={'sex'}
-        valueEnum={Sex}
-        placeholder="性别"
-        rules={[{ required: true, message: '请选择您的性别!' }]}
-      />
       <ProFormText
         name={'subject'}
-        placeholder={'姓名'}
+        placeholder={'任教科目'}
         fieldProps={{
           size: 'large',
           prefix: <SolutionOutlined className="prefixIcon" />,
@@ -101,6 +95,12 @@ export default function RegisterPane() {
             message: '科目长度必须在2到16个字符之间',
           },
         ]}
+      />
+      <ProFormSelect
+        name={'gender'}
+        valueEnum={Gender}
+        placeholder="性别"
+        rules={[{ required: true, message: '请选择您的性别!' }]}
       />
     </>
   );

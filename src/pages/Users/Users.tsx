@@ -1,5 +1,5 @@
 import { request } from '@umijs/max';
-import { Role, Sex } from '../../types';
+import { Role, Gender } from '../../types';
 import { ProTable, ProColumns, ActionType } from '@ant-design/pro-components';
 import { useRef } from 'react';
 import _ from 'lodash';
@@ -12,7 +12,7 @@ type DataSourceType = {
   name: string;
   id: string;
   password?: string;
-  sex: Sex;
+  sex: Gender;
   role: Role;
   subjects: Subject[];
   create_at: string;
@@ -80,7 +80,7 @@ const columns: ProColumns<DataSourceType>[] = [
     title: '性别',
     dataIndex: 'sex',
     tooltip: '用户的性别',
-    valueEnum: Sex,
+    valueEnum: Gender,
     filters: true,
     search: false,
   },

@@ -1,8 +1,8 @@
-import { Sex } from './types';
+import { Gender } from './types';
 
 export const TITLE = '录播室预约管理系统';
 export const SCHOOL = '海丰县实验中学';
-export const SEXS = Object.values(Sex);
+export const SEXS = Object.values(Gender);
 
 export const API_PORT = 8080;
 export const API_DOMAIN = `http://localhost:${API_PORT}/api`;
